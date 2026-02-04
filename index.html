@@ -8,28 +8,39 @@
 <meta name="keywords" content="free invoice generator, invoice maker, create invoice online, PDF invoice, professional invoice template, billing software, freelance invoice">
 <meta name="author" content="InvoiceFlow">
 <meta name="robots" content="index, follow">
+<link rel="canonical" href="https://christian140903-sudo.github.io/invoice-generator/">
+
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-PLACEHOLDER');
+</script>
 
 <!-- Open Graph -->
 <meta property="og:title" content="Free Invoice Generator - Create Professional Invoices Online | InvoiceFlow">
 <meta property="og:description" content="Create professional invoices for free. Generate PDF invoices instantly with tax, discounts, and multiple currency support. No signup required.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://invoiceflow.app">
-<meta property="og:image" content="https://invoiceflow.app/og-image.png">
-<meta property="og:site_name" content="InvoiceFlow">
+<meta property="og:url" content="https://christian140903-sudo.github.io/invoice-generator/">
+<meta property="og:image" content="https://christian140903-sudo.github.io/invoice-generator/og-image.png">
+<meta property="og:site_name" content="DevToolkit">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Free Invoice Generator | InvoiceFlow">
-<meta name="twitter:description" content="Create professional invoices for free. Generate PDF invoices instantly.">
+<meta name="twitter:title" content="Free Invoice Generator - Create Professional Invoices | InvoiceFlow">
+<meta name="twitter:description" content="Create professional invoices for free. Generate PDF invoices instantly with tax, discounts, and currency support. No signup.">
+<meta name="twitter:image" content="https://christian140903-sudo.github.io/invoice-generator/og-image.png">
 
 <!-- Schema.org -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "InvoiceFlow",
-  "description": "Free professional invoice generator. Create, download, and print invoices online.",
-  "url": "https://invoiceflow.app",
+  "name": "InvoiceFlow - Free Invoice Generator",
+  "description": "Free professional invoice generator. Create, download, and print invoices online with tax, discounts, and multiple currency support.",
+  "url": "https://christian140903-sudo.github.io/invoice-generator/",
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "All",
   "offers": {
@@ -50,6 +61,12 @@
 
 <!-- html2pdf.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<!-- PayPal JS SDK -->
+<!-- IMPORTANT: Replace "sb" with your REAL PayPal Client ID for production -->
+<!-- Get your Client ID at: https://developer.paypal.com/dashboard/applications -->
+<!-- PayPal account: christian140903@gmail.com -->
+<script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD&intent=capture&disable-funding=credit,paylater"></script>
 
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1133,6 +1150,86 @@ body {
 }
 
 /* ============================================
+   PRO ACTIVE STATE
+   ============================================ */
+body.is-pro .premium-banner { display: none; }
+body.is-pro .pro-lock-btn { display: none; }
+body.is-pro .invoice-watermark { display: none; }
+
+.pro-active-banner {
+  display: none;
+  background: linear-gradient(135deg, #00b894, #00d2a0);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  text-align: center;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.pro-active-banner .pro-active-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+}
+
+body.is-pro .pro-active-banner { display: block; }
+
+/* PayPal button container inside modal */
+#paypal-button-container {
+  margin-top: 1rem;
+  min-height: 50px;
+}
+
+.payment-processing {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 2rem 0;
+}
+
+.payment-processing.active {
+  display: flex;
+}
+
+.payment-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.payment-success-content {
+  display: none;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.payment-success-content.active {
+  display: block;
+}
+
+.payment-success-content .success-check {
+  width: 64px;
+  height: 64px;
+  background: var(--success-glow);
+  border: 3px solid var(--success);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  font-size: 2rem;
+  color: var(--success);
+}
+
+/* ============================================
    PDF GENERATION OVERRIDES
    ============================================ */
 .pdf-generating .invoice-watermark a {
@@ -1363,7 +1460,7 @@ body {
       </div>
     </div>
 
-    <!-- Premium Banner -->
+    <!-- Premium Banner (hidden when Pro is active) -->
     <div class="premium-banner">
       <div class="premium-badge">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -1397,11 +1494,17 @@ body {
           Priority Support
         </div>
       </div>
-      <div class="premium-price">$4.99 <span>/ month</span></div>
+      <div class="premium-price">$4.99 <span>one-time</span></div>
       <button class="btn btn-primary btn-lg" onclick="showPremiumModal()" style="margin-top: 0.75rem; width: 100%;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        Upgrade to Pro
+        Upgrade to Pro - $4.99
       </button>
+    </div>
+
+    <!-- Pro Active Banner (shown when Pro is active) -->
+    <div class="pro-active-banner">
+      <div class="pro-active-icon">&#9733;</div>
+      InvoiceFlow Pro &mdash; All features unlocked
     </div>
 
   </div>
@@ -1414,11 +1517,11 @@ body {
         <span style="width:8px; height:8px; background:var(--success); border-radius:50%; display:inline-block; animation: pulse 2s infinite;"></span>
       </div>
       <div class="preview-toolbar-right">
-        <button class="btn btn-outline btn-sm" onclick="showPremiumModal()" title="Remove watermark (Pro)">
+        <button class="btn btn-outline btn-sm pro-lock-btn" onclick="showPremiumModal()" title="Remove watermark (Pro)">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="color:var(--accent-light)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
           Remove Watermark
         </button>
-        <button class="btn btn-outline btn-sm" onclick="showPremiumModal()" title="Save as template (Pro)">
+        <button class="btn btn-outline btn-sm pro-lock-btn" onclick="showPremiumModal()" title="Save as template (Pro)">
           Save Template
         </button>
       </div>
@@ -1433,21 +1536,69 @@ body {
 
 </div>
 
-<!-- PREMIUM MODAL -->
+<!-- PREMIUM MODAL WITH REAL PAYPAL PAYMENT -->
 <div class="modal-overlay" id="premiumModal">
-  <div class="modal">
-    <div class="modal-icon">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6c5ce7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+  <div class="modal" style="max-width:480px; position:relative;">
+
+    <!-- Step 1: Payment selection (default view) -->
+    <div id="paymentStep1">
+      <div class="modal-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6c5ce7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <h3>Upgrade to InvoiceFlow Pro</h3>
+      <p>Unlock all premium features with a one-time payment of <strong>$4.99</strong>. No subscription, no recurring charges.</p>
+
+      <div style="text-align:left; background:var(--bg-input); border-radius:var(--radius-md); padding:1rem; margin-bottom:1.25rem;">
+        <div style="font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted); margin-bottom:0.5rem;">What you get:</div>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <div style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:var(--text-secondary);">
+            <span style="color:var(--success);">&#10003;</span> Watermark removed from all invoices
+          </div>
+          <div style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:var(--text-secondary);">
+            <span style="color:var(--success);">&#10003;</span> Premium invoice templates
+          </div>
+          <div style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:var(--text-secondary);">
+            <span style="color:var(--success);">&#10003;</span> Multi-currency support (20+ currencies)
+          </div>
+          <div style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:var(--text-secondary);">
+            <span style="color:var(--success);">&#10003;</span> Recurring invoice features
+          </div>
+          <div style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:var(--text-secondary);">
+            <span style="color:var(--success);">&#10003;</span> Priority support
+          </div>
+          <div style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:var(--text-secondary);">
+            <span style="color:var(--success);">&#10003;</span> Lifetime access &mdash; pay once, use forever
+          </div>
+        </div>
+      </div>
+
+      <div style="font-size:1.75rem; font-weight:800; margin-bottom:0.25rem;">$4.99 <span style="font-size:0.85rem; font-weight:500; color:var(--text-muted);">one-time</span></div>
+      <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:1rem;">Secure payment via PayPal</div>
+
+      <!-- PayPal Smart Payment Buttons render here -->
+      <div id="paypal-button-container"></div>
+
+      <div style="margin-top:1rem;">
+        <button class="btn btn-secondary btn-sm" onclick="closePremiumModal()" style="width:100%;">Maybe Later</button>
+      </div>
     </div>
-    <h3>Upgrade to InvoiceFlow Pro</h3>
-    <p>Unlock premium features including watermark removal, reusable templates, recurring invoices, and premium invoice designs &mdash; all for just <strong>$4.99/month</strong>.</p>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closePremiumModal()">Maybe Later</button>
-      <button class="btn btn-primary" onclick="closePremiumModal(); showToast('Coming soon! Pro launch is being prepared.', 'info');">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        Get Pro
-      </button>
+
+    <!-- Step 2: Processing (shown during payment) -->
+    <div class="payment-processing" id="paymentProcessing">
+      <div class="payment-spinner"></div>
+      <div style="font-weight:600;">Processing your payment...</div>
+      <div style="font-size:0.85rem; color:var(--text-muted);">Please do not close this window.</div>
     </div>
+
+    <!-- Step 3: Success (shown after payment) -->
+    <div class="payment-success-content" id="paymentSuccess">
+      <div class="success-check">&#10003;</div>
+      <h3 style="margin-bottom:0.5rem;">Welcome to InvoiceFlow Pro!</h3>
+      <p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:0.5rem;">Your payment was successful. All Pro features are now unlocked.</p>
+      <p id="paymentOrderId" style="font-size:0.75rem; color:var(--text-muted); margin-bottom:1.5rem;"></p>
+      <button class="btn btn-success btn-lg" onclick="closePremiumModal()" style="width:100%;">Start Using Pro</button>
+    </div>
+
   </div>
 </div>
 
@@ -1486,6 +1637,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setDefaultDates();
   addLineItem();
   addLineItem();
+  applyProStatus();
   updatePreview();
 });
 
@@ -1840,9 +1992,7 @@ function updatePreview() {
 
     ${notesHtml}
 
-    <div class="invoice-watermark">
-      Made with <a href="#">InvoiceFlow</a> &mdash; Free Invoice Generator
-    </div>
+    ${isProUser() ? '' : '<div class="invoice-watermark">Made with <a href="#">InvoiceFlow</a> &mdash; Free Invoice Generator</div>'}
   `;
 }
 
@@ -1917,10 +2067,140 @@ function clearForm() {
 }
 
 // ============================================
-// PREMIUM MODAL
+// PRO STATUS MANAGEMENT
 // ============================================
+const PRO_STORAGE_KEY = 'invoiceflow_pro';
+
+function isProUser() {
+  try {
+    const proData = JSON.parse(localStorage.getItem(PRO_STORAGE_KEY));
+    return proData && proData.active === true;
+  } catch(e) {
+    return false;
+  }
+}
+
+function activatePro(orderId) {
+  const proData = {
+    active: true,
+    orderId: orderId || 'unknown',
+    activatedAt: new Date().toISOString(),
+    product: 'InvoiceFlow Pro',
+    amount: '4.99',
+    currency: 'USD'
+  };
+  try {
+    localStorage.setItem(PRO_STORAGE_KEY, JSON.stringify(proData));
+  } catch(e) {
+    console.error('Failed to save Pro status:', e);
+  }
+  applyProStatus();
+}
+
+function applyProStatus() {
+  if (isProUser()) {
+    document.body.classList.add('is-pro');
+  } else {
+    document.body.classList.remove('is-pro');
+  }
+  // Re-render preview to show/hide watermark
+  updatePreview();
+}
+
+// ============================================
+// PREMIUM MODAL & PAYPAL PAYMENT
+// ============================================
+let paypalButtonsRendered = false;
+
 function showPremiumModal() {
+  // If already Pro, just show a toast
+  if (isProUser()) {
+    showToast('You already have InvoiceFlow Pro! All features are unlocked.', 'success');
+    return;
+  }
+
+  // Reset modal to step 1
+  document.getElementById('paymentStep1').style.display = 'block';
+  document.getElementById('paymentProcessing').classList.remove('active');
+  document.getElementById('paymentSuccess').classList.remove('active');
+
   document.getElementById('premiumModal').classList.add('active');
+
+  // Render PayPal buttons if not already rendered
+  if (!paypalButtonsRendered && typeof paypal !== 'undefined') {
+    renderPayPalButtons();
+    paypalButtonsRendered = true;
+  }
+}
+
+function renderPayPalButtons() {
+  paypal.Buttons({
+    // Style the buttons to match InvoiceFlow's dark theme
+    style: {
+      layout: 'vertical',
+      color: 'gold',
+      shape: 'rect',
+      label: 'pay',
+      height: 45
+    },
+
+    // Create the order with $4.99 one-time payment
+    createOrder: function(data, actions) {
+      return actions.order.create({
+        purchase_units: [{
+          description: 'InvoiceFlow Pro - Lifetime Access',
+          amount: {
+            currency_code: 'USD',
+            value: '4.99'
+          }
+        }],
+        application_context: {
+          brand_name: 'InvoiceFlow',
+          shipping_preference: 'NO_SHIPPING'
+        }
+      });
+    },
+
+    // Handle approved payment
+    onApprove: function(data, actions) {
+      // Show processing state
+      document.getElementById('paymentStep1').style.display = 'none';
+      document.getElementById('paymentProcessing').classList.add('active');
+
+      return actions.order.capture().then(function(orderData) {
+        // Payment successful!
+        const orderId = orderData.id;
+        console.log('Payment completed. Order ID:', orderId);
+        console.log('Full order data:', orderData);
+
+        // Activate Pro in localStorage
+        activatePro(orderId);
+
+        // Show success state
+        document.getElementById('paymentProcessing').classList.remove('active');
+        document.getElementById('paymentSuccess').classList.add('active');
+        document.getElementById('paymentOrderId').textContent = 'Order ID: ' + orderId;
+
+        showToast('Payment successful! InvoiceFlow Pro is now active.', 'success');
+      });
+    },
+
+    // Handle errors
+    onError: function(err) {
+      console.error('PayPal error:', err);
+      // Reset to step 1
+      document.getElementById('paymentStep1').style.display = 'block';
+      document.getElementById('paymentProcessing').classList.remove('active');
+      showToast('Payment failed. Please try again.', 'error');
+    },
+
+    // Handle cancellation
+    onCancel: function(data) {
+      console.log('Payment cancelled by user');
+      showToast('Payment cancelled.', 'info');
+    }
+
+  }).render('#paypal-button-container');
 }
 
 function closePremiumModal() {
